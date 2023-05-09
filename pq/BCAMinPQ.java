@@ -17,21 +17,21 @@ public class BCAMinPQ<E extends Comparable<E>> implements BCAQueue<E> {
    * Return index of the left child of element at index i.
    */
   private int leftChildOf(int i){
-    return -1 /* TODO */;
+    return 2 * i;
   }
 
   /**
    * Return index of the right child of element at index i.
    */
   private int rightChildOf(int i){
-    return -1 /* TODO */;
+    return 2 * i + 1;
   }
 
   /**
    * Return index of the parent of element at index i.
    */
   private int parentOf(int i){
-    return -1 /* TODO */;
+    return i / 2;
   }
 
   /**
