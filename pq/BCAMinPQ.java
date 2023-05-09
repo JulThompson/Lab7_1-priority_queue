@@ -17,6 +17,7 @@ public class BCAMinPQ<E extends Comparable<E>> implements BCAQueue<E> {
    * Return index of the left child of element at index i.
    */
   private int leftChildOf(int i){
+    if (2 * 1 > heap.size() -1) return -1;
     return 2 * i;
   }
 
@@ -24,6 +25,7 @@ public class BCAMinPQ<E extends Comparable<E>> implements BCAQueue<E> {
    * Return index of the right child of element at index i.
    */
   private int rightChildOf(int i){
+    if (2 * i + 1 > heap.size() - 1) return -1;
     return 2 * i + 1;
   }
 
@@ -50,19 +52,21 @@ public class BCAMinPQ<E extends Comparable<E>> implements BCAQueue<E> {
    * is the only element out of place.
    */
   private void pushUp(int i) {
-    while ( true  /* TODO continue as long as i is not the root index  */) {
-
-      if ( false /* TODO stop if parent is smaller!*/)  /**/
-        break;
-
-      /* TODO Push element at i up!*/
-
+    if (i == 1) {
+      return;
     }
+    E curr = heap.get(i);
+    if (curr.compareTo(heap.get(parentOf(i))) > 0) {
+      return;
+    }
+    swap(i, parentOf(i));
+    pushUp(parentOf(i));
   }
 
   /** Adds a new element to the the queue. */
   public void enqueue(E o){
-    /* TODO Add new element to heap, maintaining both shape and heap properties*/
+    heap.add(o);
+    pushUp(heap.size()-1);
   }
 
   /* Try BCAMinPQTest now! You should pass 0.1 to 0.6*/
@@ -73,8 +77,7 @@ public class BCAMinPQ<E extends Comparable<E>> implements BCAQueue<E> {
    * If no item, returns null
    */
   public E peek(){
-    /* TODO Return minimum element of heap*/
-    return null;
+    return heap.get(1);
   }
 
   /* Try BCAMinPQTest now! You should pass 1a*/
@@ -86,13 +89,16 @@ public class BCAMinPQ<E extends Comparable<E>> implements BCAQueue<E> {
    * is the only element out of place.
    */
   private void pushDown(int i) {
-    while( true /* TODO continue as long as i has at least 1 child  */) {
-      /* TODO pick the smaller child (there might only be one!) */
-
-      if ( false /* TODO stop if i is smaller than its children!*/)
-        break;
-
-      /* TODO Push element at i down!*/
+    E curr = heap.get(i);
+    if (curr.compareTo(heap.get(leftChildOf(i))) <= 0 || curr.compareTo(heap.get(rightChildOf(i))) <= 0) {
+      return;
+    }
+    if (heap.get(leftChildOf(i)).compareTo(heap.get(rightChildOf(i))) < 0) {
+      swap(i, leftChildOf(i));
+      pushDown(leftChildOf(i));
+    } else {
+      swap(i, rightChildOf(i));
+      pushDown(rightChildOf(i));
     }
   }
 
@@ -107,10 +113,10 @@ public class BCAMinPQ<E extends Comparable<E>> implements BCAQueue<E> {
     if (isEmpty())
       throw new NoSuchElementException("MinPQ is empty");
 
-    /* TODO Remove minimum element in heap, maintaining both shape and heap properties*/
-    /* HINT: Swap minimum element and last element FIRST! */
-
-    return null;
+    swap(1, heap.size() - 1);
+    E ret = heap.remove(heap.size() - 1);
+    pushDown(1);
+    return ret;
   }
 
   /* Try BCAMinPQTest now! You should pass the remaining tests 1b through 8, and HeapSort*/
