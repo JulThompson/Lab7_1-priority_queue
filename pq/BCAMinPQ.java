@@ -90,7 +90,7 @@ public class BCAMinPQ<E extends Comparable<E>> implements BCAQueue<E> {
    */
   private void pushDown(int i) {
     E curr = heap.get(i);
-    if (curr.compareTo(heap.get(leftChildOf(i))) <= 0 || curr.compareTo(heap.get(rightChildOf(i))) <= 0) {
+    if (curr.compareTo(heap.get(leftChildOf(i))) < 0 || curr.compareTo(heap.get(rightChildOf(i))) < 0) {
       return;
     }
     if (heap.get(leftChildOf(i)).compareTo(heap.get(rightChildOf(i))) < 0) {
