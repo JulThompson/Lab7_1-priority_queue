@@ -90,9 +90,7 @@ public class BCAMinPQ<E extends Comparable<E>> implements BCAQueue<E> {
    * is the only element out of place.
    */
   private void pushDown(int i) {
-    if (size() <= 1 || (leftChildOf(i) == -1 && rightChildOf(i) == -1)) {
-      return;
-    }
+    if (size() <= 1 || leftChildOf(i) == -1) return;
     E curr = heap.get(i);
     int left = curr.compareTo(heap.get(leftChildOf(i)));
     if ((rightChildOf(i) == -1 || curr.compareTo(heap.get(rightChildOf(i))) <= 0) && left <= 0) {
